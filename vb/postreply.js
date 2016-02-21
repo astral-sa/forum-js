@@ -16,7 +16,7 @@
     var visibilityThreshold = 30000;
     var postWrapper = null;
     var quickPreviewWrapper = null;
-    var quickPreviewInput = null;
+    //var quickPreviewInput = null;
     var shortcutsEnabled = false;
     var storageEnabled = window.localStorage ? true : false;
     var quickQuoteEnabled = window.JSON && JSON.stringify && JSON.parse;
@@ -92,7 +92,7 @@
 
                     quoteCache[anchor.attr('href')] = post.body;
                     appendQuote(post.body);
-                    anchor.children('img').attr('src', 'http://fi.somethingawful.com/images/sa-quote-added.gif');
+                    anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/sa-quote-added.gif');
                     runQuoteQueue();
                 }, 'json');
             }
@@ -426,7 +426,7 @@
             var tagEnd = text.indexOf(end, tagStart2);
             if (tagEnd != -1)
             {
-                tagEnd2 = tagEnd + end.length;
+                var tagEnd2 = tagEnd + end.length;
                 var prefix = text.substring(0, tagStart);
                 var suffix = text.substr(tagEnd2);
                 var unwrapped = text.substring(tagStart2, tagEnd);
@@ -625,6 +625,14 @@
             if ((/^([^\.]+\.)?youtube(-nocookie)?\.com$/).test(urlinfo.domain) ||
                 (/^([^\.]+\.)?youtu\.be$/).test(urlinfo.domain))
             {
+                var getYTStart = function(timeStr) {
+                    var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
+                    // return time in seconds to work around BBCode parser bug with time conversion
+                    return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) + 
+                        (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) + 
+                        (timeSearch[3] ? parseInt(timeSearch[3],10) : 0));
+                };
+                var ytparms;
                 if (urlinfo.query.v)
                 {
                     console.log('Clipboard is a Youtube video: ', data);
@@ -634,12 +642,14 @@
                         data += ' res="hd"';
                     }
 
-                    if (urlinfo.fragment)
+                    if (urlinfo.query.t)
+                        data += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                    else if (urlinfo.fragment)
                     {
-                        var ytparms = parseQueryString(urlinfo.fragment);
+                        ytparms = parseQueryString(urlinfo.fragment);
                         if (ytparms.t)
                         {
-                            data += ' start="' + parseInt(ytparms.t, 10) + '"';
+                            data += ' start="' + getYTStart(ytparms.t) + '"';
                         }
                     }
 
@@ -657,7 +667,7 @@
 
                     if (urlinfo.query.start)
                     {
-                        data += ' start="' + parseInt(urlinfo.query.start, 10) + '"';
+                        data += ' start="' + getYTStart(urlinfo.query.start) + '"';
                     }
 
                     data += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
@@ -672,12 +682,14 @@
                         data += ' res="hd"';
                     }
 
-                    if (urlinfo.fragment)
+                    if (urlinfo.query.t)
+                        data += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                    else if (urlinfo.fragment)
                     {
-                        var ytparms = parseQueryString(urlinfo.fragment);
+                        ytparms = parseQueryString(urlinfo.fragment);
                         if (ytparms.t)
                         {
-                            data += ' start="' + parseInt(ytparms.t, 10) + '"';
+                            data += ' start="' + getYTStart(ytparms.t) + '"';
                         }
                     }
 
@@ -693,34 +705,8 @@
                     case 'jpg':
                     case 'gif':
                     case 'png':
-                        if ((/(www\.|i\.)imgur.com/i).test(urlinfo.domain))
-                        {
-                            var size = '';
-                            if (filename.length > 5)
-                            {
-                                size = filename.substr(filename.length - 1);
-                            }
-                            console.log('Clipboard is an imgur URL: ', data);
-                            console.log('Filename:', filename);
-                            switch(size)
-                            {
-                                case 's':
-                                case 'l':
-                                case 't':
-                                    // Looks like a thumbnail, link it to the large version.
-                                    var url = data.substr(0, data.lastIndexOf('/') + 1) + filename.substr(0, filename.length - 1) + '.' + extension;
-                                    data = '[url=' + url + '][img]' + data + '[/img][/url]';
-                                    break;
-                                default:
-                                    data = '[img]' + data + '[/img]';
-                                    break;
-                            }
-                        }
-                        else
-                        {
                             console.log('Clipboard is an image URL: ', data);
                             data = '[img]' + data + '[/img]';
-                        }
                         break;
                     default:
                         // console.log('Clipboard is a URL: ', data);
