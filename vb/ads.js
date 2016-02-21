@@ -4,12 +4,11 @@ new function(window, document, $)
     var skyscraper;
     var skyscraperTop = 0;
     var skyscraperHeight = 0;
-    var cornerCommercial = 'http://adexcite.com/ads/video/controller.php?eid=10952';
 
     var petImage = function(side)
     {
         var n = Math.floor(Math.random() * 160) + 1;
-        return 'http://fi.somethingawful.com/sideimages/' + side + '88/' + n + '.jpg';
+        return 'https://fi.somethingawful.com/sideimages/' + side + '88/' + n + '.jpg';
     };
 
     var setupPets = function()
@@ -101,6 +100,7 @@ new function(window, document, $)
         loadAds();
     });
 
+    // var cornerCommercial = 'http://adexcite.com/ads/video/controller.php?eid=10952';
     // if (window.daa)
     // {
     //     $(window).load(function()
