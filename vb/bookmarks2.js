@@ -1,6 +1,6 @@
 new function(window, document, $)
 {
-    var base = 'http://fi.somethingawful.com/style/bookmarks/';
+    var base = 'https://fi.somethingawful.com/style/bookmarks/';
     var stars = [];
     var n_stars = 3;
     var star_off = null;
@@ -115,8 +115,8 @@ new function(window, document, $)
     var init_thread_bookmark = function()
     {
         var pending = false;
-        var unbookmark_url = 'http://fi.somethingawful.com/images/buttons/button-unbookmark.png';
-        var bookmark_url = 'http://fi.somethingawful.com/images/buttons/button-bookmark.png';
+        var unbookmark_url = 'https://fi.somethingawful.com/images/buttons/button-unbookmark.png';
+        var bookmark_url = 'https://fi.somethingawful.com/images/buttons/button-bookmark.png';
         var bottom = $('div#bookmark_link a');
         var img = $('img.thread_bookmark');
         if (!bottom.length || !img.length)
