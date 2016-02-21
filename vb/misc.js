@@ -61,9 +61,15 @@ function validate(form, maxchars) {
 
 // used on post form
 function checklength(theform, postmaxchars) {
-	if(!postmaxchars) postmaxchars = 0;
-	if (postmaxchars != 0) { message = "\nThe maximum permitted length is " + postmaxchars + " characters."; }
-	else { message = ""; }
+	var message;
+	if (!postmaxchars)
+		postmaxchars = 0;
+	if (postmaxchars != 0) {
+		message = "\nThe maximum permitted length is " + postmaxchars + " characters.";
+	}
+	else {
+		message = "";
+	}
 	alert("Your message is "+theform.message.value.length+" characters long."+message);
 }
 
@@ -90,20 +96,20 @@ $(document).ready(function() {
 			var ul = $(el).find("tr td.postlinks ul.profilelinks");
 			var pos = (ul.find("li").length >= 3) ? 2 : 1;
 			$(ul).find("li:eq("+pos+")", ul).after("\n" + '<li><a href="/banlist.php?userid=' + uid + '">Rap Sheet</a></li>');
-		} catch(e){};
+		} catch(e){}
 	});
 
 	var rx_b = new RegExp(/^\(USER WAS (?:BANNED|PUT ON PROBATION) FOR THIS POST\)$/);
 	$(posts).each(function(i, el) {
 		try { $(el).find("td.postbody > b:last").filter(function(i, el) {
-			return !!$(el).text().match(rx_b)
-		}).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '" />') } catch(e) {};
+			return !!$(el).text().match(rx_b);
+		}).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '" />'); } catch(e) {}
 	});
 
 	// make cancerous posts show normally on mouseover
 	$("td.postbody .cancerous").closest("td").hover(
-		function(e) { $(".cancerous", this).addClass('hover') },
-		function(e) { $(".cancerous", this).removeClass('hover') }
+		function(e) { $(".cancerous", this).addClass('hover'); },
+		function(e) { $(".cancerous", this).removeClass('hover'); }
 	);
 
     /* 2016 - video & twitter embedding */
@@ -198,7 +204,7 @@ function add_whoposted_links() {
 		try {
 			var threadid = el.id.match(/^thread(\d+)$/)[1];
 			$('td.replies', el).wrapInner('<a href="/misc.php?action=whoposted&amp;threadid=' + threadid + '" target="_blank" title="List users that posted in this thread" />');
-		} catch(e) {};
+		} catch(e) {}
 	});
 }
 
