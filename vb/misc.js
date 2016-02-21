@@ -16,6 +16,7 @@ function validate_pm(theform, pmmaxchars) {
 	} else { return true; }
 }
 
+/*
 function confirm_newpm() {
 	input_box=confirm("You have a new private message. Click OK to view it, or cancel to hide this prompt.");
 	if (input_box==true) { // Output when OK is clicked
@@ -30,6 +31,7 @@ function confirm_newpm() {
 	// ^^ wtf is this gayness
 	}
 }
+*/
 
 // select posticon on post screens
 function posticon_sel(id) {
@@ -72,163 +74,6 @@ function rate_thread(goldenmanbabies) {
 
 function reloadCaptcha() { document.images['captcha'].src = 'captcha.php?'+Math.random(); }
 
-// if(typeof dojo != 'undefined') {
-// 	dojo.require("dojo.lang.declare");
-
-// 	dojo.declare('flag_rotator', null, {
-// 		initialized: false,
-// 		node: null,
-// 		timer: null,
-// 		ticktime: 60,
-// 		forumid: 0,
-
-// 		initializer: function(forumid, placeholder_node) {
-// 			this.node = dojo.byId(placeholder_node);
-// 			this.forumid = forumid;
-// 			if(!this.node || this.forumid < 1) return;
-
-// 			/* if the user has a cookie named 'flag_timer', assume the value is number of tick seconds for the flag rotation */
-// 			var cookietime;
-// 			if((cookietime = dojo.io.cookie.get('flag_timer')) > 0) this.ticktime = cookietime;
-// 			if(this.ticktime < 1) return;
-// 			if(this.ticktime < 15) this.ticktime = 15;
-
-// 			dojo.require("dojo.lang.timing.Timer");
-// 			this.timer = new dojo.lang.timing.Timer( this.ticktime * 1000 );
-// 			dojo.event.connect(this.timer, 'onTick', dojo.lang.hitch(this, 'rotate'));
-
-// 			this.img = document.createElement('img');
-// 			this.img.style.display = 'none';
-// 			this.img.className = 'flag';
-// 			this.node.appendChild(this.img);
-
-// 			this.initialized = true;
-// 		},
-
-// 		go: function() {
-// 			if(!this.initialized) return;
-// 			this.timer.start();
-// 			this.rotate();
-// 		},
-
-// 		rotate: function() {
-// 			dojo.io.bind({
-// 				url: '/flag.php?forumid=' + this.forumid,
-// 				mimetype: 'text/javascript',
-// 				load: dojo.lang.hitch(this, function(type, data) {
-// 					var obj = data['flags'][0];
-// 					var url = 'http://fi.somethingawful.com/flags' + obj.path + '?by=' + encodeURIComponent(obj.owner);
-// 					var title = "This flag proudly brought to you by '" + obj.owner + "' on " + obj.created;
-// 					this.show_image(url, title);
-// 				}),
-// 				error: function(t, d) {}
-// 			});
-// 		},
-
-// 		show_image: function(url, title) {
-// 			this.img.src = url;
-// 			this.img.title = title;
-// 			this.img.style.display = 'block';
-// 		}
-// 	});
-
-// 	dojo.addOnLoad(function() {
-// 		var fpdiv = dojo.byId('flag_container');
-// 		if(!fpdiv) {
-// 			fpdiv = document.createElement('div');
-// 			fpdiv.id = 'flag_container';
-
-// 			var bdivs = dojo.html.getElementsByClassName('breadcrumbs');
-// 			if(bdivs.length < 1) return;
-// 			dojo.dom.insertBefore(fpdiv, bdivs[0]);
-// 		}
-
-// 		if(typeof rotate_forumid == 'undefined' || !rotate_forumid) return;
-// 		flagro = new flag_rotator( rotate_forumid, fpdiv );
-// 		flagro.go();
-// 	});
-// }
-
-// var posticon_clickmaster = {
-// 	forumid: null,
-
-// 	setforumid: function(forumid) {
-// 		this.forumid = forumid;
-// 	},
-
-// 	make_clicky: function(container) {
-// 		var threads = dojo.byId(container);
-// 		var icons = dojo.html.getElementsByClassName('icon', threads, 'td');
-// 		for(i = 0; i < icons.length; i++) {
-// 			var picon = dojo.dom.getFirstChildElement(icons[i], 'img');
-// 			picon.style.cursor = 'pointer';
-// 			picon.title = 'click to filter threads by this icon';
-// 			dojo.event.connect(picon, 'onclick', this, 'handle_click');
-// 		}
-// 	},
-
-// 	handle_click: function(e) {
-// 		var iconid = e.currentTarget.src.split(/#/)[1];
-// 		window.location = '/forumdisplay.php?forumid=' + this.forumid + '&posticon=' + iconid;
-// 	}
-// };
-
-// var bookmark_button = {
-// 	img: null,
-// 	bottomlink: null,
-// 	threadid: 0,
-// 	img_bookmarked: 'http://fi.somethingawful.com/images/buttons/button-bookmark.gif',
-// 	img_notbookmarked: 'http://fi.somethingawful.com/images/buttons/button-unbookmark.gif',
-
-// 	init: function(img, threadid) {
-// 		this.img = img;
-// 		this.bottomlink = dojo.byId('bookmark_link');
-// 		this.threadid = threadid;
-// 		this.img.onclick = dojo.lang.hitch(this, this.handle_click);
-// 		this.bottomlink.firstChild.onclick = dojo.lang.hitch(this, this.handle_click);
-// 		this.bottomlink.firstChild.style.cursor = this.img.style.cursor = 'pointer';
-// 		this.bottomlink.firstChild.style.borderBottom = '1px #666 solid';
-// 		this.bottomlink.firstChild.innerHTML = (dojo.html.hasClass(this.img, 'unbookmark') ? 'Unb' : 'B') + 'ookmark this thread';
-// 		this.opaque();
-// 		this.show();
-// 	},
-
-// 	show: function () { this.bottomlink.style.display = 'block'; this.img.style.display = 'inline'; },
-// 	hide: function () { this.bottomlink.style.display = this.img.style.display = 'none'; },
-// 	fade: function () { this.bottomlink.style.opacity = this.img.style.opacity = '0.4' },
-// 	opaque: function () { this.bottomlink.style.opacity = this.img.style.opacity = '1.0' },
-
-// 	handle_click: function() {
-// 		this.img.onclick = function() {};
-// 		this.bottomlink.firstChild.onclick = function() {};
-// 		this.fade();
-
-// 		var body = new Object();
-// 		body.threadid = this.threadid;
-// 		body.action = dojo.html.hasClass(this.img, 'unbookmark') ? 'remove' : 'add';
-// 		this.bottomlink.firstChild.innerHTML = (dojo.html.hasClass(this.img, 'unbookmark') ?  'Unb' : 'B') + 'ookmark this thread';
-// 		body.json = 1;
-
-// 		dojo.io.bind({
-// 			method: 'POST',
-// 			content: body,
-// 			url: '/bookmarkthreads.php',
-// 			load: dojo.lang.hitch(this, function(type, res) {
-// 				this.img.onclick = dojo.lang.hitch(this, this.handle_click);
-// 				this.bottomlink.firstChild.onclick = dojo.lang.hitch(this, this.handle_click);
-// 				this.bottomlink.firstChild.innerHTML = (res.bookmarked ?  'Unb' : 'B') + 'ookmark this thread';
-// 				this.img.src = this['img_' + (res.bookmarked ? 'not' : '') + 'bookmarked'];
-// 				this.img.className = res.bookmarked ? 'unbookmark' : 'bookmark';
-// 				this.opaque();
-// 			}),
-// 			error: dojo.lang.hitch(this, function(type, res) {
-// 				alert("Failed to alter bookmark");
-// 				this.opaque();
-// 			}),
-// 			mimetype: 'text/javascript'
-// 		});
-// 	}
-// };
 
 /* 7/22/10: this adds 'Rap Sheet' link below posts and makes "(USER WAS BANNED...)" text clickable */
 $(document).ready(function() {
@@ -260,6 +105,90 @@ $(document).ready(function() {
 		function(e) { $(".cancerous", this).addClass('hover') },
 		function(e) { $(".cancerous", this).removeClass('hover') }
 	);
+
+    /* 2016 - video & twitter embedding */
+    // Small function that tests whether a browser supports WebM embeds
+    var canEmbedWebM = function() {
+        return (!!document.createElement('video').canPlayType && (document.createElement('video').canPlayType('video/webm; codecs="vp8, vorbis"') === 'probably'));
+    }
+    // Small function to add sources
+    var addVideoSources = function(href, ext){
+        return '<source src="' + href.replace(ext,'.mp4')+'" type="video/mp4">' +
+                   '<source src="' + href.replace(ext,'.webm')+'" type="video/webm">';
+    }
+
+    // Link processing for gifv/webm/mp4/twitter/etc
+    var postLinks = $('td.postbody a');
+    // Ignore things we shouldn't convert
+    postLinks = postLinks.not("td.postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+    postLinks = postLinks.not('td.bbc-spoiler a');
+    postLinks.each(function() {
+        // Don't auto-embed if there's non-link inner text
+        if (!/^http/.test($(this).text()))
+            return; 
+        // Check for possible gif-likes
+        var vidExtMatch = this.pathname.match(/(\.gifv|\.webm|\.mp4)$/i);
+        if (vidExtMatch) {
+            if (/(www\.|i\.)imgur.com$/i.test(this.hostname)) {
+                // Direct link to an imgur gif-like video
+                $(this).replaceWith('<div class="gifv_video"><video autoplay loop muted="true" poster="' + $(this).attr('href').replace(vidExtMatch[1],'h.jpg') + '">' +
+                    addVideoSources($(this).attr('href'), vidExtMatch[1]) +
+                    '</video></div>');
+            }
+            else if (/gfycat.com$/i.test(this.hostname)) {
+                var gfyMatch = this.pathname.match(/([A-Za-z]+)(?:\/*)?/i);
+                if (!gfyMatch)
+                    return;
+                var gfyLink = this;
+                $.ajax({url:"https://gfycat.com/cajax/get/" + gfyMatch[1],
+                        dataType: 'jsonp',
+                        success: function(data) {
+                            if (data.gfyItem)
+                                $(gfyLink).replaceWith('<div class="gfy_video"><video autoplay loop muted="true" poster="https://thumbs.gfycat.com/' + gfyMatch[1] + '-poster.jpg">' +
+                                    '<source src="' + data.gfyItem.mp4Url +'" type="video/mp4">' +
+                                    '<source src="' + data.gfyItem.webmUrl +'" type="video/webm">' +
+                                    '</video></div>');
+                        }
+                });
+            }
+            else {
+                // Not a gif-like - treat any of these as a regular video
+                if ((/\.gifv$/i).test(this.pathname)) {
+                    return;
+                }
+                else if ((/\.webm$/i).test(this.pathname)) {
+                    // Don't try to embed if the browser doesn't support webms
+                    if (canEmbedWebM()) {
+                        // Slip in an .mp4 source along with it anyway
+                        $(this).replaceWith('<div class="sa_video"><video preload="metadata" controls>' +
+                            addVideoSources($(this).attr('href'), vidExtMatch[1]) +
+                            '</video></div>');
+                    }
+                }
+                else {
+                    $(this).replaceWith('<div class="sa_video"><video preload="metadata" controls>' +
+                        addVideoSources($(this).attr('href'), vidExtMatch[1]) +
+                        '</video></div>');
+                }
+            }
+        }
+        else {
+            // Check for Twitter
+            var twMatch = $(this).attr('href').match(/^(?:https|http):\/\/(?:mobile\.)?twitter.com\/[0-9a-zA-Z_]+\/(?:status|statuses)\/([0-9]+)/);
+            if (twMatch == null)
+                return;
+            var tweetId = twMatch[1];
+            var link = this;
+            $.ajax({url:"https://api.twitter.com/1/statuses/oembed.json?id="+tweetId,
+                    dataType: 'jsonp',
+                    success: function(data) {
+                        link = $(link).wrap("<div class='tweet'>").parent();
+                        $(link).html(data.html);
+                    }
+            });
+        }
+    });
+
 });
 
 function add_whoposted_links() {
