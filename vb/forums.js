@@ -12,7 +12,7 @@ new function(window, document, $)
         $.get('/flag.php?forumid=26', function(data)
         {
             flagImg.attr('title', 'This flag proudly brought to you by "' + data.username + '" on ' + data.created);
-            flagImg.attr('src', 'http://fi.somethingawful.com/flags' + data.path + '?by=' + encodeURIComponent(data.username));
+            flagImg.attr('src', 'https://fi.somethingawful.com/flags' + data.path + '?by=' + encodeURIComponent(data.username));
             rotateID = setTimeout(rotateFYADFlag, rotateInterval * 1000);
         });
     };
