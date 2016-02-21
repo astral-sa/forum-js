@@ -110,12 +110,14 @@ $(document).ready(function() {
     // Small function that tests whether a browser supports WebM embeds
     var canEmbedWebM = function() {
         return (!!document.createElement('video').canPlayType && (document.createElement('video').canPlayType('video/webm; codecs="vp8, vorbis"') === 'probably'));
-    }
+    };
     // Small function to add sources
     var addVideoSources = function(href, ext){
         return '<source src="' + href.replace(ext,'.mp4')+'" type="video/mp4">' +
                    '<source src="' + href.replace(ext,'.webm')+'" type="video/webm">';
-    }
+    };
+    // Enforce controls for mobile clients
+    var vidControls = window.SA.utils.isMobile ? 'controls ' : '';
 
     // Link processing for gifv/webm/mp4/twitter/etc
     var postLinks = $('td.postbody a');
@@ -131,7 +133,7 @@ $(document).ready(function() {
         if (vidExtMatch) {
             if (/(www\.|i\.)imgur.com$/i.test(this.hostname)) {
                 // Direct link to an imgur gif-like video
-                $(this).replaceWith('<div class="gifv_video"><video autoplay loop muted="true" poster="' + $(this).attr('href').replace(vidExtMatch[1],'h.jpg') + '">' +
+                $(this).replaceWith('<div class="gifv_video"><video autoplay ' + vidControls + 'loop muted="true" poster="' + $(this).attr('href').replace(vidExtMatch[1],'h.jpg') + '">' +
                     addVideoSources($(this).attr('href'), vidExtMatch[1]) +
                     '</video></div>');
             }
@@ -144,7 +146,7 @@ $(document).ready(function() {
                         dataType: 'jsonp',
                         success: function(data) {
                             if (data.gfyItem)
-                                $(gfyLink).replaceWith('<div class="gfy_video"><video autoplay loop muted="true" poster="https://thumbs.gfycat.com/' + gfyMatch[1] + '-poster.jpg">' +
+                                $(gfyLink).replaceWith('<div class="gfy_video"><video autoplay ' + vidControls + 'loop muted="true" poster="https://thumbs.gfycat.com/' + gfyMatch[1] + '-poster.jpg">' +
                                     '<source src="' + data.gfyItem.mp4Url +'" type="video/mp4">' +
                                     '<source src="' + data.gfyItem.webmUrl +'" type="video/webm">' +
                                     '</video></div>');
