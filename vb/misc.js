@@ -101,7 +101,7 @@ $(document).ready(function() {
 
 	var rx_b = new RegExp(/^\(USER WAS (?:BANNED|PUT ON PROBATION) FOR THIS POST\)$/);
 	$(posts).each(function(i, el) {
-		try { $(el).find("td.postbody > div.postdata > b:last").filter(function(i, el) {
+		try { $(el).find("td.postbody > b:last").filter(function(i, el) {
 			return !!$(el).text().match(rx_b);
 		}).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '" />'); } catch(e) {}
 	});
