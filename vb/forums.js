@@ -105,7 +105,7 @@ new function(window, document, $)
             }
         });
 
-        if ($('body.forum_26, body.forum_154').length)
+        if ($('body.forum_26, body.forum_154, body.forum_666').length)
         {
             flagImg = $(new Image());
             $('div#flag_container').append(flagImg);
