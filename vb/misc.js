@@ -81,30 +81,25 @@ function rate_thread(goldenmanbabies) {
 function reloadCaptcha() { document.images['captcha'].src = 'captcha.php?'+Math.random(); }
 
 
-/* 7/22/10: this adds 'Rap Sheet' link below posts and makes "(USER WAS BANNED...)" text clickable */
+/* 7/22/10: this makes "(USER WAS BANNED...)" text clickable */
 $(document).ready(function() {
-	var posts = $("#thread table.post");
-	$(posts).each(function(i, el) {
-		try {
-			var td_u = $(el).find("td.userinfo").get(0);
-			var uid = td_u.className.match(/\buserid\-(\d+)\b/)[1];
-			$(td_u).data('userid', uid);
+    var posts = $("#thread table.post");
+    var rx_b = new RegExp(/^\(USER WAS (?:BANNED|PUT ON PROBATION) FOR THIS POST\)$/);
+    $(posts).each(function(i, el) {
+        try {
+            var td_u = $(el).find("td.userinfo").get(0);
+            var uid = td_u.className.match(/\buserid\-(\d+)\b/)[1];
+            $(td_u).data('userid', uid);
 
-			var postid = el.id.match(/\bpost(\d+)\b/)[1];
-			$(el).data({ 'userid':uid, 'postid':postid });
-
-			var ul = $(el).find("tr td.postlinks ul.profilelinks");
-			var pos = (ul.find("li").length >= 3) ? 2 : 1;
-			$(ul).find("li:eq("+pos+")", ul).after("\n" + '<li><a href="/banlist.php?userid=' + uid + '">Rap Sheet</a></li>');
-		} catch(e){}
-	});
-
-	var rx_b = new RegExp(/^\(USER WAS (?:BANNED|PUT ON PROBATION) FOR THIS POST\)$/);
-	$(posts).each(function(i, el) {
-		try { $(el).find("td.postbody > b:last").filter(function(i, el) {
-			return !!$(el).text().match(rx_b);
-		}).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '" />'); } catch(e) {}
-	});
+            var postid = el.id.match(/\bpost(\d+)\b/)[1];
+            $(el).data({ 'userid':uid, 'postid':postid });
+            $(el).find("td.postbody > b:last").filter(function(i, el) {
+                return !!$(el).text().match(rx_b);
+            }).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '" />');
+        } catch(e) {
+            /* do nothing */
+        }
+    });
 
 	// make cancerous posts show normally on mouseover
 	$("td.postbody .cancerous").closest("td").hover(
@@ -148,8 +143,8 @@ $(document).ready(function() {
                 if (!gfyMatch)
                     return;
                 var gfyLink = this;
-                $.ajax({url:"https://gfycat.com/cajax/get/" + gfyMatch[1],
-                        dataType: 'jsonp',
+                $.ajax({url:"https://api.gfycat.com/v1/gfycats/" + gfyMatch[1],
+                        dataType: 'json',
                         success: function(data) {
                             if (data.gfyItem)
                                 $(gfyLink).replaceWith('<div class="gfy_video"><video autoplay ' + vidControls + 'loop muted="true" poster="https://thumbs.gfycat.com/' + gfyMatch[1] + '-poster.jpg">' +
