@@ -10,7 +10,8 @@ SA.thread = new function(window, document, $)
 {
     var postJumpRE = /\?postid=(\d+)/;
     var postJumpHashRE = /#post(\d+)/;
-    var sel = ($.browser.webkit || $.browser.safari) ? 'body' : 'html';
+    // no longer using browser detection to pick this element:
+    var sel = 'body,html';
 
     var jumpTo = function(id)
     {
