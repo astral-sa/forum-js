@@ -603,12 +603,12 @@
      */
     var captureClipboard = function(selection)
     {
-        var data = clipboardCatcher[0].value;
+        var pasteData = clipboardCatcher[0].value;
         var m;
-        if ((/^https?:\/\//).test(data) && data.indexOf('\n') == -1 && data.indexOf('\r') == -1)
+        if ((/^https?:\/\//).test(pasteData) && pasteData.indexOf('\n') == -1 && pasteData.indexOf('\r') == -1)
         {
             // So far a URL.
-            var urlinfo = parseURL(data);
+            var urlinfo = parseURL(pasteData);
             var extension = '';
             var filename = '';
             var handled = false;
@@ -635,65 +635,65 @@
                 var ytparms;
                 if (urlinfo.query.v)
                 {
-                    console.log('Clipboard is a Youtube video: ', data);
-                    data = '[video type="youtube"';
+                    console.log('Clipboard is a Youtube video: ', pasteData);
+                    pasteData = '[video type="youtube"';
                     if (urlinfo.query.hd)
                     {
-                        data += ' res="hd"';
+                        pasteData += ' res="hd"';
                     }
 
                     if (urlinfo.query.t)
-                        data += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                        pasteData += ' start="' + getYTStart(urlinfo.query.t) + '"';
                     else if (urlinfo.fragment)
                     {
                         ytparms = parseQueryString(urlinfo.fragment);
                         if (ytparms.t)
                         {
-                            data += ' start="' + getYTStart(ytparms.t) + '"';
+                            pasteData += ' start="' + getYTStart(ytparms.t) + '"';
                         }
                     }
 
-                    data += ']' + urlinfo.query.v + '[/video]';
+                    pasteData += ']' + urlinfo.query.v + '[/video]';
                     handled = true;
                 }
                 else if ((/^\/embed/).test(urlinfo.path))
                 {
-                    console.log('Clipboard is an embedded Youtube video: ', data);
-                    data = '[video type="youtube"';
+                    console.log('Clipboard is an embedded Youtube video: ', pasteData);
+                    pasteData = '[video type="youtube"';
                     if (urlinfo.query.hd)
                     {
-                        data += ' res="hd"';
+                        pasteData += ' res="hd"';
                     }
 
                     if (urlinfo.query.start)
                     {
-                        data += ' start="' + getYTStart(urlinfo.query.start) + '"';
+                        pasteData += ' start="' + getYTStart(urlinfo.query.start) + '"';
                     }
 
-                    data += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
+                    pasteData += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
                     handled = true;
                 }
                 else                
                 {
-                    console.log('Clipboard is a short-link Youtube video: ', data);
-                    data = '[video type="youtube"';
+                    console.log('Clipboard is a short-link Youtube video: ', pasteData);
+                    pasteData = '[video type="youtube"';
                     if (urlinfo.query.hd)
                     {
-                        data += ' res="hd"';
+                        pasteData += ' res="hd"';
                     }
 
                     if (urlinfo.query.t)
-                        data += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                        pasteData += ' start="' + getYTStart(urlinfo.query.t) + '"';
                     else if (urlinfo.fragment)
                     {
                         ytparms = parseQueryString(urlinfo.fragment);
                         if (ytparms.t)
                         {
-                            data += ' start="' + getYTStart(ytparms.t) + '"';
+                            pasteData += ' start="' + getYTStart(ytparms.t) + '"';
                         }
                     }
 
-                    data += ']' + urlinfo.path.substr(1) + '[/video]';
+                    pasteData += ']' + urlinfo.path.substr(1) + '[/video]';
                     handled = true;
                 }
             }
@@ -705,18 +705,18 @@
                     case 'jpg':
                     case 'gif':
                     case 'png':
-                            console.log('Clipboard is an image URL: ', data);
-                            data = '[img]' + data + '[/img]';
+                            console.log('Clipboard is an image URL: ', pasteData);
+                            pasteData = '[img]' + pasteData + '[/img]';
                         break;
                     default:
-                        // console.log('Clipboard is a URL: ', data);
-                        // data = '[url]' + data + '[/url]';
+                        // console.log('Clipboard is a URL: ', pasteData);
+                        // pasteData = '[url]' + pasteData + '[/url]';
                         break;
                 }
             }
         }
         messageBox.focus();
-        insertText(data, selection, false);
+        insertText(pasteData, selection, false);
     };
 
     /**
