@@ -355,7 +355,7 @@
             i--;
         }
 
-        selection.start = i;
+        selection.start = (i >= 0) ? i : 0;
 
         while (i < l)
         {
