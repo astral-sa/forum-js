@@ -1,81 +1,81 @@
 // misc old crap
 
 function newposts(threadid) {
-	window.location.href = '/showthread.php?goto=newpost&threadid=' + threadid;
+    window.location.href = '/showthread.php?goto=newpost&threadid=' + threadid;
 }
 
 function validate_pm(theform, pmmaxchars) {
-	if (theform.message.value=="" || theform.touser.value=="") {
-		alert("Please complete the recipient and message fields.");
-		return false; }
-	if (pmmaxchars != 0) {
-		if (theform.message.value.length > (pmmaxchars/2)) {
-			alert("Your message is too long.\n\nReduce your message to "+(pmmaxchars/2)+" characters.\nIt is currently "+theform.message.value.length+" characters long.");
-			return false; }
-		else { return true; }
-	} else { return true; }
+    if (theform.message.value=="" || theform.touser.value=="") {
+        alert("Please complete the recipient and message fields.");
+        return false; }
+    if (pmmaxchars != 0) {
+        if (theform.message.value.length > (pmmaxchars/2)) {
+            alert("Your message is too long.\n\nReduce your message to "+(pmmaxchars/2)+" characters.\nIt is currently "+theform.message.value.length+" characters long.");
+            return false; }
+        else { return true; }
+    } else { return true; }
 }
 
 /*
 function confirm_newpm() {
-	input_box=confirm("You have a new private message. Click OK to view it, or cancel to hide this prompt.");
-	if (input_box==true) { // Output when OK is clicked
-		second_box=confirm("Open in new window?\n\n(Press cancel to open in the current window.)");
-		if (second_box==true) {
-			window.open('private.php', 'pmnew');
-		} else {
-			window.location="private.php";
-		}
-	} else {
-	// Output when Cancel is clicked
-	// ^^ wtf is this gayness
-	}
+    input_box=confirm("You have a new private message. Click OK to view it, or cancel to hide this prompt.");
+    if (input_box==true) { // Output when OK is clicked
+        second_box=confirm("Open in new window?\n\n(Press cancel to open in the current window.)");
+        if (second_box==true) {
+            window.open('private.php', 'pmnew');
+        } else {
+            window.location="private.php";
+        }
+    } else {
+    // Output when Cancel is clicked
+    // ^^ wtf is this gayness
+    }
 }
 */
 
 // select posticon on post screens
 function posticon_sel(id) {
-	document.vbform.iconid.item(id).checked = true;
+    document.vbform.iconid.item(id).checked = true;
 }
 
 // used on post form
 function validate(form, maxchars) {
-	var subject = form.elements.namedItem('subject');
-	if(subject && form.subject.value == '') {
-		alert("Please complete the subject field, shithead.");
-		return false;
-	}
+    var subject = form.elements.namedItem('subject');
+    if(subject && form.subject.value == '') {
+        alert("Please complete the subject field, shithead.");
+        return false;
+    }
 
-	var message = form.elements.namedItem('message');
-	if(message && form.message.value == '') {
-		alert("Please complete the message field, shithead.");
-		return false;
-	}
+    var message = form.elements.namedItem('message');
+    if(message && form.message.value == '') {
+        alert("Please complete the message field, shithead.");
+        return false;
+    }
 
-	if(maxchars != 0 && message.length > maxchars) {
-		alert("Your message is too long.\n\nReduce your message to " + maxchars + " characters.\nIt is currently "+form.message.value.length+" characters long.\n  Are you trying to spam?\n  If so, then STOP!");
-		return false;
-	}
-	return true;
+    if(maxchars != 0 && message.length > maxchars) {
+        alert("Your message is too long.\n\nReduce your message to " + maxchars + " characters.\nIt is currently "+form.message.value.length+" characters long.\n  Are you trying to spam?\n  If so, then STOP!");
+        return false;
+    }
+    return true;
 }
 
 // used on post form
 function checklength(theform, postmaxchars) {
-	var message;
-	if (!postmaxchars)
-		postmaxchars = 0;
-	if (postmaxchars != 0) {
-		message = "\nThe maximum permitted length is " + postmaxchars + " characters.";
-	}
-	else {
-		message = "";
-	}
-	alert("Your message is "+theform.message.value.length+" characters long."+message);
+    var message;
+    if (!postmaxchars)
+        postmaxchars = 0;
+    if (postmaxchars != 0) {
+        message = "\nThe maximum permitted length is " + postmaxchars + " characters.";
+    }
+    else {
+        message = "";
+    }
+    alert("Your message is "+theform.message.value.length+" characters long."+message);
 }
 
 function rate_thread(goldenmanbabies) {
-	document.rateform.vote.value = goldenmanbabies;
-	document.rateform.submit();
+    document.rateform.vote.value = goldenmanbabies;
+    document.rateform.submit();
 }
 
 function reloadCaptcha() { document.images['captcha'].src = 'captcha.php?'+Math.random(); }
@@ -101,11 +101,11 @@ $(document).ready(function() {
         }
     });
 
-	// make cancerous posts show normally on mouseover
-	$("td.postbody .cancerous").closest("td").hover(
-		function(e) { $(".cancerous", this).addClass('hover'); },
-		function(e) { $(".cancerous", this).removeClass('hover'); }
-	);
+    // make cancerous posts show normally on mouseover
+    $("td.postbody .cancerous").closest("td").hover(
+        function(e) { $(".cancerous", this).addClass('hover'); },
+        function(e) { $(".cancerous", this).removeClass('hover'); }
+    );
 
     /* 2016 - video & twitter embedding */
     // Small function that tests whether a browser supports WebM embeds
@@ -195,11 +195,11 @@ $(document).ready(function() {
 });
 
 function add_whoposted_links() {
-	$('#forum.threadlist tr.thread').each(function(i,el) {
-		try {
-			var threadid = el.id.match(/^thread(\d+)$/)[1];
-			$('td.replies', el).wrapInner('<a href="/misc.php?action=whoposted&amp;threadid=' + threadid + '" target="_blank" title="List users that posted in this thread" />');
-		} catch(e) {}
-	});
+    $('#forum.threadlist tr.thread').each(function(i,el) {
+        try {
+            var threadid = el.id.match(/^thread(\d+)$/)[1];
+            $('td.replies', el).wrapInner('<a href="/misc.php?action=whoposted&amp;threadid=' + threadid + '" target="_blank" title="List users that posted in this thread" />');
+        } catch(e) {}
+    });
 }
 
