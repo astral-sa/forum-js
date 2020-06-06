@@ -192,6 +192,19 @@ $(document).ready(function() {
         }
     });
 
+    if (twemoji) {
+        twemoji.parse(document.body, {
+            callback: function(icon, options, variant) {
+                switch (icon) {
+                    case 'a9': // Â© copyright
+                    case 'ae': // Â® registered trademark
+                    case '2122': // â„¢ trademark
+                        return false;
+                }
+                return ''.concat(options.base, options.size, '/', icon, options.ext);
+            }
+        });
+    }
 });
 
 function add_whoposted_links() {
