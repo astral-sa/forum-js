@@ -711,7 +711,13 @@
                         break;
                     default:
                         // console.log('Clipboard is a URL: ', pasteData);
-                        // pasteData = '[url]' + pasteData + '[/url]';
+                        // Make sure users want URLs parsed
+                        var wantsParsing = $('input[name="parseurl"]').is(':checked');
+
+                        // Only use this for wikipedia links (for now?)
+                        if (wantsParsing && /^([^\.]+\.)?wikipedia\.org$/.test(urlinfo.domain)) {
+                            pasteData = '[url]' + pasteData + '[/url]';
+                        }
                         break;
                 }
             }
