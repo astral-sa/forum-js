@@ -18,7 +18,7 @@ $(function () {
 	// Let user change to desktop mode
 	$('.toptitlerightbuttons').before("<div class='desktopmodecontainer'><a href='#' class='desktopmode'></a></div>");
 	$('a.desktopmode').click(function(event) {
-	  $.get("http://dev.forums.somethingawful.com/member.php?action=editoptions",
+	  $.get("https://forums.somethingawful.com/member.php?action=editoptions",
 		function(data) {
 			$form = $(data).find("#content").find("form");   
 			$form.find('input[name="mobilelayout"]')[0].checked = false;
