@@ -192,7 +192,7 @@ $(document).ready(function() {
         }
     });
 
-    if (twemoji) {
+    try {
         twemoji.parse(document.body, {
             callback: function(icon, options, variant) {
                 switch (icon) {
@@ -204,6 +204,8 @@ $(document).ready(function() {
                 return ''.concat(options.base, options.size, '/', icon, options.ext);
             }
         });
+    } catch (e) {
+        console.log("Twemoji wasn't defined! It's probably blocked by your browser.");
     }
 });
 
