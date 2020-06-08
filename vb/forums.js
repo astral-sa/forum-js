@@ -4,7 +4,7 @@ new function(window, document, $)
     var rotateInterval = 60; // In seconds
     var flagImg = null;
 
-    
+
     var rotateFYADFlag = function()
     {
         clearInterval(rotateID);
@@ -29,7 +29,7 @@ new function(window, document, $)
             var url = $(this).attr('data-url');
             window.location.href = url + '&pagenumber=' + $(this).val();
         });
-        
+
         if ($('body.forumdisplay, body.showthread').length)
         {
             var bc = $('div.breadcrumbs > span:first-child');

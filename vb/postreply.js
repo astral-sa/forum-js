@@ -628,8 +628,8 @@
                 var getYTStart = function(timeStr) {
                     var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
                     // return time in seconds to work around BBCode parser bug with time conversion
-                    return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) + 
-                        (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) + 
+                    return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) +
+                        (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) +
                         (timeSearch[3] ? parseInt(timeSearch[3],10) : 0));
                 };
                 var ytparms;
@@ -673,7 +673,7 @@
                     pasteData += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
                     handled = true;
                 }
-                else                
+                else
                 {
                     console.log('Clipboard is a short-link Youtube video: ', pasteData);
                     pasteData = '[video type="youtube"';

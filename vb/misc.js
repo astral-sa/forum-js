@@ -128,7 +128,7 @@ $(document).ready(function() {
     postLinks.each(function() {
         // Don't auto-embed if there's non-link inner text
         if (!/^http/.test($(this).text()))
-            return; 
+            return;
         // Check for possible gif-likes
         var vidExtMatch = this.pathname.match(/(\.gifv|\.webm|\.mp4)$/i);
         if (vidExtMatch) {
