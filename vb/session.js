@@ -96,7 +96,7 @@ new function(window, document, $)
 
         if (lastCookie)
         {
-            value = lastCookie.split('.');
+            var value = lastCookie.split('.');
             if (value.length == 4)
             {
                 var f = pInt(value[0]);
