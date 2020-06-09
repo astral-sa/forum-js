@@ -210,7 +210,7 @@ SA.thread = new function(window, document, $)
 
     $(document).ready(init);
 
-    $(window).load(function()
+    $(window).on('load', function()
     {
         if ($('body.showthread').length && window.adjust_page_position && window.location.hash)
         {

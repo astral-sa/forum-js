@@ -202,7 +202,7 @@ SA.timg = new function(window, document, $)
                 }
                 else
                 {
-                    e.load(timgLoaded);
+                    e.on('load', timgLoaded);
                 }
             }
         });
@@ -218,7 +218,7 @@ SA.timg = new function(window, document, $)
 
     $(document).ready(init);
 
-    $(window).load(function()
+    $(window).on('load', function()
     {
         var unhandled = $('img.timg.loading');
         if (unhandled.length)

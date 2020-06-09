@@ -103,7 +103,7 @@ new function(window, document, $)
     // var cornerCommercial = 'http://adexcite.com/ads/video/controller.php?eid=10952';
     // if (window.daa)
     // {
-    //     $(window).load(function()
+    //     $(window).on('load', function()
     //     {
     //         // Load corner commerical.
     //         var script = $(document.createElement('script'));
