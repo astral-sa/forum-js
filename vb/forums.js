@@ -111,7 +111,8 @@ new function(window, document, $)
             $('div#flag_container').append(flagImg);
             rotateFYADFlag();
         }
-        else if (!$.browser.msie && !$.browser.opera && !SA.utils.isMobile && $('body.forum_25').length)
+        // Add "Septic Tank" overlay (but not for IE or Opera)
+        else if (!/(MSIE|Trident|Opera)/.test(navigator.userAgent) && !SA.utils.isMobile && $('body.forum_25').length)
         {
             var d = $('<div id="gc_overlay"></div>');
             $('body').append(d);

@@ -134,7 +134,7 @@
                 'top': messageBox.offset().top
             });
 
-            var sel = ($.browser.webkit || $.browser.safari) ? 'body' : 'html';
+            var sel = 'body,html';
             var offset = quickPreviewWrapper.offset();
             if (offset.top < $(sel).scrollTop())
             {

@@ -85,7 +85,7 @@ SA.timg = new function(window, document, $)
                 e.removeAttr('height');
             }
 
-            var sel = ($.browser.webkit || $.browser.safari) ? 'body' : 'html';
+            var sel = 'body,html';
             st = $(sel).scrollTop();
             t = e.offset().top;
             b = t + e.height();

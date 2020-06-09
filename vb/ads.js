@@ -1,6 +1,6 @@
 new function(window, document, $)
 {
-    var sel = ($.browser.webkit || $.browser.safari) ? 'body' : 'html';
+    var sel = 'body,html';
     var skyscraper;
     var skyscraperTop = 0;
     var skyscraperHeight = 0;
