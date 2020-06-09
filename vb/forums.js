@@ -147,6 +147,6 @@ new function(window, document, $)
 
         // Show a different color quote block if the user has been quoted
         var regex = new RegExp('^' + $('#loggedinusername').text().replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1") + "\\s+posted:$");
-        $('.bbc-block h4').filter(function(){ return regex.test($(this).text()) }).map(function(){ return $(this).closest('.bbc-block')[0]; }).addClass("userquoted")
+        $('.bbc-block h4').filter(function(){ return regex.test($(this).text()); }).map(function(){ return $(this).closest('.bbc-block')[0]; }).addClass("userquoted");
     });
 }(window, document, jQuery);
