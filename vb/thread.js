@@ -18,20 +18,13 @@ SA.thread = new function(window, document, $)
         var element = $('#' + id);
         if (element.length || id == 'top')
         {
-            if ($.browser.msie && parseInt($.browser.version, 10) < 9)
-            {
-                window.location.href = '#' + id;
-            }
-            else
-            {
-                var st = element.length ? element.offset().top : 0;
-                // Temporarily remove the id to keep the page from jumping before scroll.
-                element.attr('id', '');
-                window.location.href = '#' + id;
-                element.attr('id', id);
-                $(sel).animate({'scrollTop': st}, 150);
-                console.log('animated', sel, element, st);
-            }
+            var st = element.length ? element.offset().top : 0;
+            // Temporarily remove the id to keep the page from jumping before scroll.
+            element.attr('id', '');
+            window.location.href = '#' + id;
+            element.attr('id', id);
+            $(sel).animate({'scrollTop': st}, 150);
+            console.log('animated', sel, element, st);
 
             return false;
         }
@@ -135,57 +128,49 @@ SA.thread = new function(window, document, $)
 
         if (!$('body.showpost').length)
         {
-            if ($.browser.msie && parseInt($.browser.version, 10) < 7)
-            {
-                jumpElementRight.show();
-                $('body').append(jumpElementRight);
-            }
-            else
-            {
-                $('body').append(jumpElementLeft);
-                $('body').append(jumpElementRight);
+            $('body').append(jumpElementLeft);
+            $('body').append(jumpElementRight);
 
-                $(document).mousemove(function(e)
+            $(document).mousemove(function(e)
+            {
+                var leftVisible = jumpElementLeft.is(':visible');
+                var rightVisible = jumpElementRight.is(':visible');
+                var inY = e.pageY > (($(sel).scrollTop() + $(window).height()) - 100);
+
+                if (inY && e.pageX < 100)
                 {
-                    var leftVisible = jumpElementLeft.is(':visible');
-                    var rightVisible = jumpElementRight.is(':visible');
-                    var inY = e.pageY > (($(sel).scrollTop() + $(window).height()) - 100);
-
-                    if (inY && e.pageX < 100)
+                    if (rightVisible)
                     {
-                        if (rightVisible)
-                        {
-                            jumpElementRight.hide();
-                        }
-                        if (!leftVisible)
-                        {
-                            jumpElementLeft.show();
-                        }
+                        jumpElementRight.hide();
                     }
-                    else if (inY && e.pageX > $(window).width() - 100)
+                    if (!leftVisible)
                     {
-                        if (!rightVisible)
-                        {
-                            jumpElementRight.show();
-                        }
-                        if (leftVisible)
-                        {
-                            jumpElementLeft.hide();
-                        }
+                        jumpElementLeft.show();
                     }
-                    else
+                }
+                else if (inY && e.pageX > $(window).width() - 100)
+                {
+                    if (!rightVisible)
                     {
-                        if (rightVisible)
-                        {
-                            jumpElementRight.hide();
-                        }
-                        if (leftVisible)
-                        {
-                            jumpElementLeft.hide();
-                        }
+                        jumpElementRight.show();
                     }
-                });
-            }
+                    if (leftVisible)
+                    {
+                        jumpElementLeft.hide();
+                    }
+                }
+                else
+                {
+                    if (rightVisible)
+                    {
+                        jumpElementRight.hide();
+                    }
+                    if (leftVisible)
+                    {
+                        jumpElementLeft.hide();
+                    }
+                }
+            });
         }
 
         $('div.jump_top').click(function()

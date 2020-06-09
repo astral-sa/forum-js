@@ -73,15 +73,8 @@ new function(window, document, $)
         }
         else if (st >= skyscraperTop)
         {
-            if ($.browser.msie && parseInt($.browser.version, 10) < 7)
-            {
-                css.top = st;
-            }
-            else
-            {
-                css.position = 'fixed';
-                css.top = 0;
-            }
+            css.position = 'fixed';
+            css.top = 0;
         }
 
         skyscraper.css(css);

@@ -102,15 +102,7 @@ SA.timg = new function(window, document, $)
 
             if (st != $(sel).scrollTop())
             {
-                if ($.browser.msie && parseInt($.browser.version, 10) < 7)
-                {
-                    // IE 6 is dumb and you should feel bad!
-                    $(sel).scrollTop(st);
-                }
-                else
-                {
-                    $(sel).animate({'scrollTop': st}, 150);
-                }
+                $(sel).animate({'scrollTop': st}, 150);
             }
         }
         else
@@ -177,7 +169,7 @@ SA.timg = new function(window, document, $)
             // with a userscript.
             span.click(function(event)
             {
-                if (event.which === 1 || ($.browser.msie && parseInt($.browser.version, 10) < 9 && event.which === 0))
+                if (event.which === 1)
                 {
                     timgClick.call(note, event, true);
                     return false;
