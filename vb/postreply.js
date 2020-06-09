@@ -106,7 +106,7 @@
 
     var fetchPreview = function(message)
     {
-        // quickPreviewInput.attr('disabled', true);
+        // quickPreviewInput.prop('disabled', true);
         var data = {
             'action': $('input[name="action"]').val(),
             'threadid': $('input[name="threadid"]').val(),
@@ -141,7 +141,7 @@
                 $(sel).animate({'scrollTop': offset.top}, 150);
             }
 
-            // quickPreviewInput.attr('disabled', false);
+            // quickPreviewInput.prop('disabled', false);
         });
     };
 
@@ -906,12 +906,12 @@
         if (l > 0 && l <= maxPostLength && countDiv.hasClass('over'))
         {
             countDiv.removeClass('over');
-            $('input.bginput[type="submit"]').attr('disabled', false);
+            $('input.bginput[type="submit"]').prop('disabled', false);
         }
         else if (l > maxPostLength || l === 0)
         {
             countDiv.addClass('over');
-            $('input.bginput[type="submit"]').attr('disabled', true);
+            $('input.bginput[type="submit"]').prop('disabled', true);
         }
 
         if (inFYAD)

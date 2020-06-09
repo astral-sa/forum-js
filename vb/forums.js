@@ -140,7 +140,7 @@ new function(window, document, $)
 
             if ($.cookie('secure_login') == 'no')
             {
-                secure_login.attr('checked', null);
+                secure_login.prop('checked', false);
                 toggleSecure();
             }
         }
