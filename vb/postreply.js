@@ -697,6 +697,9 @@
                     handled = true;
                 }
             }
+            else if (/^([^\.]+\.)?vimeo\.com$/.test(urlinfo.domain) && (/^(?:\/video)?\/\d+$/).test(urlinfo.path)) {
+                pasteData = '[video]' + pasteData + '[/video]';
+            }
 
             if (!handled)
             {
