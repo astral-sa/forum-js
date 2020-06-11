@@ -700,6 +700,9 @@
             else if (/^([^\.]+\.)?vimeo\.com$/.test(urlinfo.domain) && (/^(?:\/video)?\/\d+$/).test(urlinfo.path)) {
                 pasteData = '[video]' + pasteData + '[/video]';
             }
+            else if (/^([^\.]+\.)?cnn\.com$/.test(urlinfo.domain) && (/^\/videos/).test(urlinfo.path)) {
+                pasteData = '[video]' + pasteData + '[/video]';
+            }
 
             if (!handled)
             {
