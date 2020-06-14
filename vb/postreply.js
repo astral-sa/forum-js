@@ -711,6 +711,32 @@
                 pasteData = '[video]' + pasteData + '[/video]';
                 handled = true;
             }
+            else if (/^([^\.]+\.)?twitch\.tv$/.test(urlinfo.domain)) {
+                // Twitch doesn't support timecodes in their clip embeds
+                if (urlinfo.domain === 'clips.twitch.tv' || /\/clip/.test(urlinfo.path)) {
+                    console.log("Clipboard is a twitch clip");
+                    pasteData = '[video]' + pasteData + '[/video]';
+                    handled = true;
+                }
+                // Videos get the full treatment with time codes
+                else if (/^\/videos/.test(urlinfo.path)) {
+                    console.log("Clipboard is a twitch VOD");
+                    pasteData = '[video type="twitch"';
+                    if (urlinfo.query.t)
+                        pasteData += ' start="' + getVideoStart(urlinfo.query.t) + '"';
+                    pasteData += ']' + urlinfo.path.substr(8) + '[/video]';
+                    handled = true;
+                }
+                // Match channels; ignore collections
+                else {
+                    var channelMatches = urlinfo.path.match(/^\/(?!collections)([a-zA-Z0-9_]{4,25})/);
+                    if (channelMatches) {
+                        console.log("Clipboard is a twitch streamer");
+                        pasteData = '[video type="twitch"]' + channelMatches[1] + '[/video]';
+                        handled = true;
+                    }
+                }
+            }
 
             if (!handled)
             {
