@@ -620,18 +620,24 @@
                 console.log('!!!', filename);
             }
 
+            var getVideoStart = function(timeStr) {
+                var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
+                return ((timeSearch[1] ? timeSearch[1] + 'h' : '') + 
+                    (timeSearch[2] ? timeSearch[2] + 'm' : '') + 
+                    (timeSearch[3] ? timeSearch[3] + 's' : ''));
+                /* BBCode parser bug was fixed; previous code left for posterity:
+                // return time in seconds to work around BBCode parser bug with time conversion
+                return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) +
+                    (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) +
+                    (timeSearch[3] ? parseInt(timeSearch[3],10) : 0));
+                    */
+            };
+
             // Detect youtube here!!
             // http://www.youtube.com/watch?v=rK1XnD9f8Bc&feature=g-vrec
             if ((/^([^\.]+\.)?youtube(-nocookie)?\.com$/.test(urlinfo.domain) ||
                 /^([^\.]+\.)?youtu\.be$/.test(urlinfo.domain)) &&
                 /^\/user|^\/channel|^\/playlist/.test(urlinfo.path) === false) {
-                var getYTStart = function(timeStr) {
-                    var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
-                    // return time in seconds to work around BBCode parser bug with time conversion
-                    return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) +
-                        (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) +
-                        (timeSearch[3] ? parseInt(timeSearch[3],10) : 0));
-                };
                 var ytparms;
                 if (urlinfo.query.v)
                 {
@@ -643,13 +649,13 @@
                     }
 
                     if (urlinfo.query.t)
-                        pasteData += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                        pasteData += ' start="' + getVideoStart(urlinfo.query.t) + '"';
                     else if (urlinfo.fragment)
                     {
                         ytparms = parseQueryString(urlinfo.fragment);
                         if (ytparms.t)
                         {
-                            pasteData += ' start="' + getYTStart(ytparms.t) + '"';
+                            pasteData += ' start="' + getVideoStart(ytparms.t) + '"';
                         }
                     }
 
@@ -667,7 +673,7 @@
 
                     if (urlinfo.query.start)
                     {
-                        pasteData += ' start="' + getYTStart(urlinfo.query.start) + '"';
+                        pasteData += ' start="' + getVideoStart(urlinfo.query.start) + '"';
                     }
 
                     pasteData += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
@@ -683,13 +689,13 @@
                     }
 
                     if (urlinfo.query.t)
-                        pasteData += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                        pasteData += ' start="' + getVideoStart(urlinfo.query.t) + '"';
                     else if (urlinfo.fragment)
                     {
                         ytparms = parseQueryString(urlinfo.fragment);
                         if (ytparms.t)
                         {
-                            pasteData += ' start="' + getYTStart(ytparms.t) + '"';
+                            pasteData += ' start="' + getVideoStart(ytparms.t) + '"';
                         }
                     }
 
@@ -699,9 +705,11 @@
             }
             else if (/^([^\.]+\.)?vimeo\.com$/.test(urlinfo.domain) && (/^(?:\/video)?\/\d+$/).test(urlinfo.path)) {
                 pasteData = '[video]' + pasteData + '[/video]';
+                handled = true;
             }
             else if (/^([^\.]+\.)?cnn\.com$/.test(urlinfo.domain) && (/^\/videos/).test(urlinfo.path)) {
                 pasteData = '[video]' + pasteData + '[/video]';
+                handled = true;
             }
 
             if (!handled)
