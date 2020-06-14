@@ -9,15 +9,15 @@
     var undoIndex = 0;
     var keyInterval = 250;
     var scheduledSnapshot = 0;
-    var threadId = 0;
-    var forumId = 0;
+    var threadId = '0';
+    var forumId = '0';
     var originalPost = '';
     var maxPostLength = 50000;
     var visibilityThreshold = 30000;
     var postWrapper = null;
     var quickPreviewWrapper = null;
     //var quickPreviewInput = null;
-    var shortcutsEnabled = false;
+    var shortcutsEnabled = '';
     var storageEnabled = window.localStorage ? true : false;
     var quickQuoteEnabled = window.JSON && JSON.stringify && JSON.parse;
     var newThread = false;
@@ -198,7 +198,7 @@
 
         if (undo !== null)
         {
-            if (undoIndex != undo.length - 1)
+            if (undoIndex !== undo.length - 1)
             {
                 console.log('Pruning undo...', undo.length, undoIndex, undo.length - undoIndex - 1);
                 undo.splice(undoIndex + 1, undo.length - undoIndex - 1);
@@ -266,14 +266,14 @@
     var getSelection = function()
     {
         var selection = null;
-        if (shortcutsEnabled == 'new')
+        if (shortcutsEnabled === 'new')
         {
             selection = {
                 'start': messageBox[0].selectionStart,
                 'end': messageBox[0].selectionEnd
             };
         }
-        // else if (shortcutsEnabled == 'ie legacy')
+        // else if (shortcutsEnabled === 'ie legacy')
         // {
         //     // I GIVE UP ON YOU IE
         //     // If you know how to rewrite this horseshit so IE8 can be supported
@@ -301,7 +301,7 @@
      */
     var setSelection = function(start)
     {
-        var end = arguments.length == 2 ? arguments[1] : start;
+        var end = arguments.length === 2 ? arguments[1] : start;
         messageBox[0].setSelectionRange(start, end);
     };
 
@@ -395,10 +395,10 @@
         var selection = getSelection();
         var text = messageBox[0].value;
         var i = text.lastIndexOf('[' + tag, selection.start);
-        if (i != -1)
+        if (i !== -1)
         {
             i = text.indexOf('[/' + tag + ']', i);
-            if (i == -1)
+            if (i === -1)
             {
                 // No closing tag, assume everything after the start tag is a list.
                 return false;
@@ -420,11 +420,11 @@
 
         var tagStart = text.lastIndexOf(start, selection.start);
 
-        if (tagStart != -1)
+        if (tagStart !== -1)
         {
             var tagStart2 = tagStart + start.length;
             var tagEnd = text.indexOf(end, tagStart2);
-            if (tagEnd != -1)
+            if (tagEnd !== -1)
             {
                 var tagEnd2 = tagEnd + end.length;
                 var prefix = text.substring(0, tagStart);
@@ -442,7 +442,7 @@
      *
      * @param   selection   An object with selection information.  Supply this
      *                      value to override the selection.
-     * @param   wrapped     If wrap is true, the text is meant to surround the
+     * @param   wrap        If wrap is true, the text is meant to surround the
      *                      selection.
      */
     var insertText = function(text, selection, wrap)
@@ -530,14 +530,17 @@
         var item;
         for (item in query)
         {
-            i = query[item].indexOf('=');
-            if (i != -1)
+            if (query.hasOwnProperty(item))
             {
-                o[query[item].substr(0, i)] = query[item].substr(i + 1);
-            }
-            else
-            {
-                o[query[item]] = true;
+                i = query[item].indexOf('=');
+                if (i !== -1)
+                {
+                    o[query[item].substr(0, i)] = query[item].substr(i + 1);
+                }
+                else
+                {
+                    o[query[item]] = true;
+                }
             }
         }
 
@@ -552,8 +555,8 @@
         var m = (/([^:]+):\/\/([^\/]+)(\/.*)?/).exec(decodeURI(url));
         if (m)
         {
-            var tmp;
-            var item;
+            //var tmp;
+            //var item;
             var i;
             var o = {
                 'scheme': m[1],
@@ -565,21 +568,21 @@
             };
 
             i = o.path.lastIndexOf('#');
-            if (i != -1)
+            if (i !== -1)
             {
                 o.fragment = o.path.substr(i + 1);
                 o.path = o.path.substr(0, i);
             }
 
             i = o.path.lastIndexOf('?');
-            if (i != -1)
+            if (i !== -1)
             {
                 o.query = parseQueryString(o.path.substr(i + 1));
                 o.path = o.path.substr(0, i);
             }
 
             i = o.path.lastIndexOf('/');
-            if (i != -1)
+            if (i !== -1)
             {
                 o.filename = o.path.substr(i + 1);
             }
@@ -604,8 +607,8 @@
     var captureClipboard = function(selection)
     {
         var pasteData = clipboardCatcher[0].value;
-        var m;
-        if ((/^https?:\/\//).test(pasteData) && pasteData.indexOf('\n') == -1 && pasteData.indexOf('\r') == -1)
+        //var m;
+        if ((/^https?:\/\//).test(pasteData) && pasteData.indexOf('\n') === -1 && pasteData.indexOf('\r') === -1)
         {
             // So far a URL.
             var urlinfo = parseURL(pasteData);
@@ -613,7 +616,7 @@
             var filename = '';
             var handled = false;
             var i = urlinfo.filename.lastIndexOf('.');
-            if (i != -1)
+            if (i !== -1)
             {
                 extension = urlinfo.filename.substr(i + 1);
                 filename = urlinfo.filename.substr(0, i);
@@ -622,8 +625,8 @@
 
             var getVideoStart = function(timeStr) {
                 var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
-                return ((timeSearch[1] ? timeSearch[1] + 'h' : '') + 
-                    (timeSearch[2] ? timeSearch[2] + 'm' : '') + 
+                return ((timeSearch[1] ? timeSearch[1] + 'h' : '') +
+                    (timeSearch[2] ? timeSearch[2] + 'm' : '') +
                     (timeSearch[3] ? timeSearch[3] + 's' : ''));
                 /* BBCode parser bug was fixed; previous code left for posterity:
                 // return time in seconds to work around BBCode parser bug with time conversion
@@ -1095,9 +1098,9 @@
             postWrapper.find('div.save-state').text('Drafts not enabled in your browser');
         }
 
-        if (shortcutsEnabled == 'new')
+        if (shortcutsEnabled === 'new')
         {
-            if (!!!window.adv_post_disabled)
+            if (!window.adv_post_disabled)
             {
                 clipboardCatcher = $('<textarea></textarea>');
                 clipboardCatcher.css({
