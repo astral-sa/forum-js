@@ -1129,6 +1129,7 @@
         {
             if (!window.adv_post_disabled)
             {
+                addPasteTaggingToggle();
                 clipboardCatcher = $('<textarea></textarea>');
                 clipboardCatcher.css({
                     'position': 'absolute',
@@ -1154,7 +1155,6 @@
             }
         }
 
-        addPasteTaggingToggle();
         updateCharacterCount();
         messageBox.focus();
     };
