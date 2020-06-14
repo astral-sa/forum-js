@@ -18,6 +18,7 @@
     var quickPreviewWrapper = null;
     //var quickPreviewInput = null;
     var shortcutsEnabled = '';
+    var disablePasteTagging = false;
     var storageEnabled = window.localStorage ? true : false;
     var quickQuoteEnabled = window.JSON && JSON.stringify && JSON.parse;
     var newThread = false;
@@ -777,6 +778,11 @@
      */
     var shouldIgnorePaste = function()
     {
+        // user has disabled paste auto-tagging for this post
+        if (disablePasteTagging) {
+            return true;
+        }
+
         var selection = getSelection();
         var start = null;
         if (selection.start >= 5)
@@ -969,6 +975,27 @@
         countDiv.text(l + ' / ' + maxPostLength);
     };
 
+    /**
+     * Event handler to toggle paste auto-tagging for the current post.
+     */
+    var togglePasteTagging = function() {
+        disablePasteTagging = !disablePasteTagging;
+        var disablePasteBubble = document.getElementById('toggle_paste_tagging');
+        if (disablePasteBubble) {
+            disablePasteBubble.innerText = disablePasteTagging ? 'paste auto-tagging is OFF for this post' : 'paste auto-tagging is ON';
+        }
+        return false;
+    };
+
+    /**
+     * Adds a button to disable paste auto-tagging for the current post.
+     */
+    var addPasteTaggingToggle = function() {
+        var disablePasteBubble = $.parseHTML(' <a href="javascript:void(0);" id="toggle_paste_tagging">paste auto-tagging is ON</a>');
+        $(disablePasteBubble[1]).on('click', togglePasteTagging);
+        $('a.show_bbcode').after(disablePasteBubble);
+    };
+
     var init = function()
     {
         messageBox = $('textarea[name="message"]');
@@ -1127,6 +1154,7 @@
             }
         }
 
+        addPasteTaggingToggle();
         updateCharacterCount();
         messageBox.focus();
     };
