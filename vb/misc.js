@@ -95,7 +95,7 @@ $(document).ready(function() {
             $(el).data({ 'userid':uid, 'postid':postid });
             $(el).find("td.postbody > b:last").filter(function(i, el) {
                 return !!$(el).text().match(rx_b);
-            }).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '" />');
+            }).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '#frompost' + $(el).data('postid') + '" />');
         } catch(e) {
             /* do nothing */
         }
@@ -191,6 +191,35 @@ $(document).ready(function() {
             });
         }
     });
+
+    /**
+     * Leper's Colony punishment highlighting
+     */
+    if (/^\/?banlist\.php/i.test(window.location.pathname)) {
+        // Are we looking for punishments from a specific post?
+        var fromPost = window.location.hash.match(/^#frompost(\d+)/i);
+        if (fromPost) {
+            var scrolledYet = false;
+            var banTableRows = $('table.standard.full tr[data-postid]');
+            banTableRows.each(function() {
+                var banRow = $(this);
+                if (banRow.data('postid').toString() === fromPost[1]) {
+                    $(this).addClass('highlighted-punishment');
+                    if (!scrolledYet) {
+                        scrolledYet = true;
+                        var sel = 'body,html';
+                        $(sel).animate({'scrollTop': banRow.offset().top}, 150);
+                    }
+                }
+            });
+            // add #frompost + postid to nav links in case the punishment line is on another page
+            var banListNavLinks = $('div.mqnav a');
+            banListNavLinks.each(function() {
+                if ($(this).prop('hash') === '')
+                    $(this).prop('hash', '#frompost' + fromPost[1]);
+            });
+        }
+    }
 
     try {
         twemoji.parse(document.body, {
