@@ -84,7 +84,7 @@ function reloadCaptcha() { document.images['captcha'].src = 'captcha.php?'+Math.
 /* 7/22/10: this makes "(USER WAS BANNED...)" text clickable */
 $(document).ready(function() {
     var posts = $("#thread table.post");
-    var rx_b = new RegExp(/^\(USER WAS (?:BANNED|PUT ON PROBATION) FOR THIS POST\)$/);
+    var rx_b = new RegExp(/^\(USER WAS (?:BANNED|AUTOBANNED|PERMABANNED|PUT ON PROBATION) FOR THIS POST\)$/);
     $(posts).each(function(i, el) {
         try {
             var td_u = $(el).find("td.userinfo").get(0);
