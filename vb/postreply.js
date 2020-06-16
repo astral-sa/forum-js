@@ -1089,7 +1089,7 @@
                     var d = new Date(draft.time);
                     info.html('<strong>Draft from: ' + d.toLocaleDateString() + ' ' + d.toLocaleTimeString() + '</strong>');
 
-                    var a = $('<a href="#">Append</a>');
+                    var a = $('<a href="#" title="Append saved draft to message-in-progress">Append</a>');
                     a.click(function()
                     {
                         insertText(draft.message, null, false);
@@ -1097,7 +1097,7 @@
                     });
                     info.append(a);
 
-                    a = $('<a href="#">Replace</a>');
+                    a = $('<a href="#" title="Replace message-in-progress with saved draft">Replace</a>');
                     a.click(function()
                     {
                         messageBox[0].value = '';
@@ -1109,7 +1109,7 @@
 
                     if (!newThread)
                     {
-                        a = $('<a href="#">Preview</a>');
+                        a = $('<a href="#" title="Preview saved draft">Preview</a>');
                         a.click(function()
                         {
                             fetchPreview(draft.message);
