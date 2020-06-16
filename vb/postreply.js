@@ -755,11 +755,18 @@
                         break;
                     default:
                         // console.log('Clipboard is a URL: ', pasteData);
-                        // Make sure users want URLs parsed
+                        // Bail if users don't want URLs parsed
                         var wantsParsing = $('input[name="parseurl"]').is(':checked');
+                        if (!wantsParsing)
+                            break;
 
+                        // Custom handling for specific links:
+                        // remove garbage from the end of pasted twitter URLs
+                        if (/^([^\.]+\.)?twitter\.com$/.test(urlinfo.domain)) {
+                            pasteData = pasteData.replace(/\?ref_(?:.*)/, '');
+                        }
                         // Only use this for wikipedia links (for now?)
-                        if (wantsParsing && /^([^\.]+\.)?wikipedia\.org$/.test(urlinfo.domain)) {
+                        else if (/^([^\.]+\.)?wikipedia\.org$/.test(urlinfo.domain)) {
                             pasteData = '[url]' + pasteData + '[/url]';
                         }
                         break;
