@@ -24,6 +24,8 @@
     var newThread = false;
     var newReply = false;
     var editPost = false;
+    var privateMessage = false;
+    var submittingPM = false;
     var inFYAD = false;
     var lastMessageLength = 0;
 
@@ -34,7 +36,11 @@
             if (name !== null)
             {
                 var value = null;
-                name = 'postreply_' + name;
+                if (privateMessage) {
+                    name = 'privatemessage_' + name;
+                } else {
+                    name = 'postreply_' + name;
+                }
 
                 if (arguments.length > 1)
                 {
@@ -174,6 +180,10 @@
             {
                 key = 'reply-' + threadId;
             }
+            else if (privateMessage)
+            {
+                key = 'last-draft';
+            }
             else
             {
                 console.warn('No idea what kind of snapshot this should be!!');
@@ -194,6 +204,10 @@
      */
     var performSnapshot = function()
     {
+        // Bail if we're in the middle of submitting a PM
+        if (submittingPM)
+            return;
+
         console.log('Taking snapshot...');
         clearInterval(scheduledSnapshot);
 
@@ -1005,6 +1019,15 @@
 
     var init = function()
     {
+        if (privateMessage) {
+            maxPostLength = 100000;
+            // Clear PM draft on submit and prevent further snapshots
+            $('form[action="private.php"]').on('submit', function(){
+                submittingPM = true;
+                store('last-draft', null);
+            });
+        }
+
         messageBox = $('textarea[name="message"]');
 
         postWrapper = $('<div class="post-wrapper"></div>');
@@ -1042,7 +1065,7 @@
             shortcutsEnabled = 'ie legacy';
         }
 
-        if (quickQuoteEnabled && !newThread)
+        if (quickQuoteEnabled && !newThread && !privateMessage)
         {
             // Be very specific just in case.
             $(document).delegate('td.postlinks > ul.postbuttons > li > a[href^="newreply.php"]', 'click', updateReply);
@@ -1087,6 +1110,10 @@
             {
                 draft = store('reply-' + threadId);
             }
+            else if (privateMessage)
+            {
+                draft = store('last-draft');
+            }
 
             if (draft !== null)
             {
@@ -1114,7 +1141,7 @@
                     });
                     info.append(a);
 
-                    if (!newThread)
+                    if (!newThread && !privateMessage)
                     {
                         a = $('<a href="#" title="Preview saved draft">Preview</a>');
                         a.click(function()
@@ -1171,8 +1198,10 @@
         newThread = !!$('form[action="newthread.php"]').length;
         newReply = !!$('form[action="newreply.php"]').length;
         editPost = !!$('form[action="editpost.php"]').length;
+        privateMessage = !!$('form[action="private.php"][name="vbform"]').length;
         inFYAD = !!$('body.forum_26').length;
-        if (newThread || newReply || editPost)
+
+        if (newThread || newReply || editPost || privateMessage)
         {
             init();
         }
