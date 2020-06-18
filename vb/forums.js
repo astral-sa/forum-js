@@ -27,7 +27,9 @@ new function(window, document, $)
         $('div.pages select').change(function()
         {
             var url = $(this).attr('data-url');
-            window.location.href = url + '&pagenumber=' + $(this).val();
+            var addHash = $(this).data('addhash');
+            var addHashString = addHash ? addHash : '';
+            window.location.href = url + '&pagenumber=' + $(this).val() + addHashString;
         });
 
         if ($('body.forumdisplay, body.showthread').length)

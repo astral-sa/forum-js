@@ -223,6 +223,10 @@ $(document).ready(function() {
                 if ($(this).prop('hash') === '')
                     $(this).prop('hash', '#frompost' + fromPost[1]);
             });
+            var banListSelect = $('div.pages select');
+            banListSelect.each(function() {
+                $(this).attr('data-addhash', '#frompost' + fromPost[1]);
+            });
         }
     }
 
