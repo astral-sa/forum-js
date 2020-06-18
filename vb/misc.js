@@ -122,9 +122,14 @@ $(document).ready(function() {
 
     // Link processing for gifv/webm/mp4/twitter/etc
     var postLinks = $('td.postbody a');
+    if (/^\/?(?:newreply|editpost|newthread)\.php/i.test(window.location.pathname)) {
+        // Hook up quote/edit/post previews.
+        postLinks = postLinks.add('div.inner.postbody a');
+    }
     // Ignore things we shouldn't convert
-    postLinks = postLinks.not("td.postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
-    postLinks = postLinks.not('td.bbc-spoiler a');
+    postLinks = postLinks.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+    postLinks = postLinks.not('.bbc-spoiler a');
+
     postLinks.each(function() {
         // Don't auto-embed if there's non-link inner text
         if (!/^http/.test($(this).text()))
