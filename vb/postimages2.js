@@ -116,6 +116,9 @@ SA.timg = new function(window, document, $)
             e.removeAttr('t_height');
         }
 
+        // Are we inside a spoiler? If so, trigger its click event.
+        $(this).closest('.bbc-spoiler').trigger('click');
+
         return false;
     };
 

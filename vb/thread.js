@@ -87,15 +87,15 @@ SA.thread = new function(window, document, $)
 
         if (SA.utils.isMobile)
         {
-            $('.bbc-spoiler').bind('touchmove', function(e)
+            $('.bbc-spoiler').on('touchmove', function(e)
             {
                 e.stopPropagation();
                 e.preventDefault();
             });
 
-            $('.bbc-spoiler').bind('touchstart', function(e)
+            $('.bbc-spoiler').on('touchstart', function(e)
             {
-                if (e.target != this)
+                if (e.target != this && !$.contains(this, e.target))
                 {
                     return;
                 }
@@ -109,7 +109,7 @@ SA.thread = new function(window, document, $)
         {
             $('.bbc-spoiler').click(function(e)
             {
-                if (e.target != this)
+                if (e.target != this && !$.contains(this, e.target))
                 {
                     return;
                 }
