@@ -95,11 +95,6 @@ SA.thread = new function(window, document, $)
 
             $('.bbc-spoiler').on('touchstart', function(e)
             {
-                if (e.target != this && !$.contains(this, e.target))
-                {
-                    return;
-                }
-
                 $(this).toggleClass('stay');
                 e.stopPropagation();
                 e.preventDefault();
@@ -109,10 +104,6 @@ SA.thread = new function(window, document, $)
         {
             $('.bbc-spoiler').click(function(e)
             {
-                if (e.target != this && !$.contains(this, e.target))
-                {
-                    return;
-                }
                 $(this).toggleClass('stay');
             });
 

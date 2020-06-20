@@ -125,8 +125,7 @@
 
         $('form[action="newreply.php"] input[type="checkbox"]:checked').each(function(i, e)
         {
-            e = $(e);
-            data[e.attr('name')] = 'yes';
+            data[$(e).attr('name')] = 'yes';
         });
 
         $.post('newreply.php?json=1', data, function(post)
@@ -1022,7 +1021,7 @@
         if (privateMessage) {
             maxPostLength = 100000;
             // Clear PM draft on submit and prevent further snapshots
-            $('form[action="private.php"]').on('submit', function(){
+            $('form[action="private.php"][name="vbform"]').on('submit', function(){
                 submittingPM = true;
                 store('last-draft', null);
             });
