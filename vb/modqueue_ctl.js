@@ -19,6 +19,7 @@ $SA.modQueueRequestUI = {
 		menu.add_item('Ban', 'request_ban', 'request_ban');
 		menu.add_item('Title Change', 'request_title', 'request_title');
 		menu.add_item('Title Blank', 'request_title_blank', 'request_title_blank');
+		menu.add_item('Platinum', 'request_platinum', 'request_platinum');
 
 		$(menu).bind('item_selected', function(e, param) { self._handle_postmenu_selection(e, param) });
 
