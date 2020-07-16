@@ -1,3 +1,6 @@
+/**
+ * @file Adds smilie search and copy-to-clipboard functionality to the smilies list.
+ */
 
 var emoteArray = [];
 
