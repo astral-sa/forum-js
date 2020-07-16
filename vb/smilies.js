@@ -25,9 +25,9 @@ function buildEmoteArray() {
 			}
 			return true;
 		},
-		setVisible: function(boolean) {
+		setVisible: function(isVisible) {
 			var item = this.element;
-			boolean ? item.style.display = "block" : item.style.display = "none";
+			isVisible ? item.style.display = "block" : item.style.display = "none";
 		}
 	};
 	emoteArray.push(emoteObject);
