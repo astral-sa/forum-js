@@ -87,13 +87,19 @@ $(document).ready(function() {
     var rx_b = new RegExp(/^\(USER WAS (?:BANNED|AUTOBANNED|PERMABANNED|PUT ON PROBATION) FOR THIS POST\)$/);
     $(posts).each(function(i, el) {
         try {
+            var punishmentSelector = "td.postbody > b:last";
             var td_u = $(el).find("td.userinfo").get(0);
+            if (!td_u) {
+                // Try FYAD template
+                td_u = $(el).find("div.userinfo").get(0);
+                punishmentSelector = "div.funbox > b:last";
+            }
             var uid = td_u.className.match(/\buserid\-(\d+)\b/)[1];
             $(td_u).data('userid', uid);
 
             var postid = el.id.match(/\bpost(\d+)\b/)[1];
             $(el).data({ 'userid':uid, 'postid':postid });
-            $(el).find("td.postbody > b:last").filter(function(i, el) {
+            $(el).find(punishmentSelector).filter(function(i, el) {
                 return !!$(el).text().match(rx_b);
             }).wrapInner('<a href="/banlist.php?userid=' + $(el).data('userid') + '#frompost' + $(el).data('postid') + '" />');
         } catch(e) {
