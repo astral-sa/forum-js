@@ -1194,10 +1194,10 @@
 
     $(document).ready(function()
     {
-        newThread = !!$('form[action="newthread.php"]').length;
-        newReply = !!$('form[action="newreply.php"]').length;
-        editPost = !!$('form[action="editpost.php"]').length;
-        privateMessage = !!$('form[action="private.php"][name="vbform"]').length;
+        newThread = !!$('#container form[action="newthread.php"]').length;
+        newReply = !!$('#container form[action="newreply.php"]').length;
+        editPost = !!$('#container form[action="editpost.php"]').length;
+        privateMessage = !!$('#container form[action="private.php"][name="vbform"]').length;
         inFYAD = !!$('body.forum_26').length;
 
         if (newThread || newReply || editPost || privateMessage)
