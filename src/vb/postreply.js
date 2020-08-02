@@ -778,10 +778,8 @@
                         if (/^([^\.]+\.)?twitter\.com$/.test(urlinfo.domain)) {
                             pasteData = pasteData.replace(/\?ref_(?:.*)/, '');
                         }
-                        // Only use this for wikipedia links (for now?)
-                        else if (/^([^\.]+\.)?wikipedia\.org$/.test(urlinfo.domain)) {
-                            pasteData = '[url]' + pasteData + '[/url]';
-                        }
+                        // Auto-tag links
+                        pasteData = '[url]' + pasteData + '[/url]';
                         break;
                 }
             }
