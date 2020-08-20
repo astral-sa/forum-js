@@ -99,7 +99,12 @@
 
                     quoteCache[anchor.attr('href')] = post.body;
                     appendQuote(post.body);
-                    anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/sa-quote-added.gif');
+                    if (!$("link[href*='/byob.css']").length) {
+                        anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/sa-quote-added.gif');
+                    }
+                    else {
+                        anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/buttons/byob-quote-added2.png');
+                    }
                     runQuoteQueue();
                 }, 'json');
             }
