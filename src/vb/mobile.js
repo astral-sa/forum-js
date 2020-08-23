@@ -10,8 +10,7 @@ $(function () {
     // $('head').append("<link rel=\"stylesheet\" type=\"text/css\" href=\"https://drive.google.com/open?id=0B72oTkmUPNFrcHI1b3g1X1haNjQ\">");
 
     // Add top title bar by replacing stuff in globalmenu
-    $('#globalmenu').empty();
-    $('#globalmenu').after('<div class="toptitle"></div>');
+    $('#container').before('<div class="toptitle"></div>');
     $('.toptitle').append("<a href='index.php' class='toplinkboner'><img id='title_image' src='http://i.somethingawful.com/images/mobile-grenade-31x45.png' alt='Something Awful Forums'><div class='toptitletext'>Something Awful</div></a><div class='toptitlerightbuttons'><a href='#' class='toptitlepurchase purchase-popout'></a><a href='#' class='toptitleoptions navigation-popout'></a></div>");
 
     // Mobile toggle
@@ -561,9 +560,6 @@ $(function () {
 
     // Remove postbuttons
     $('body.privmsg ul.postbuttons').remove();
-
-    // Delete globalmenu
-    $('#globalmenu').remove();
 
     // Move PM Options to same div as profilelinks
     $('select.dropdown_pmoptions').insertAfter('select.dropdown_profilelinks');
