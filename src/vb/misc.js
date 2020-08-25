@@ -16,22 +16,39 @@ function validate_pm(theform, pmmaxchars) {
     } else { return true; }
 }
 
-/*
+/**
+ * Fancy new PM popup
+ */
 function confirm_newpm() {
-    input_box=confirm("You have a new private message. Click OK to view it, or cancel to hide this prompt.");
-    if (input_box==true) { // Output when OK is clicked
-        second_box=confirm("Open in new window?\n\n(Press cancel to open in the current window.)");
-        if (second_box==true) {
-            window.open('private.php', 'pmnew');
-        } else {
-            window.location="private.php";
-        }
-    } else {
-    // Output when Cancel is clicked
-    // ^^ wtf is this gayness
-    }
+	var pmDialog = $('<div id="pm-confirm" title="VERY IMPORTANT FORUMS ANNOUNCEMENT!"><span class="ui-icon ui-icon-alert" style="float:left; margin:15px 12px 15px 0;"></span><p>You have received a new private message!</p></div>');
+	pmDialog.appendTo('body');
+	$("#pm-confirm").dialog({
+		create: function(event) {
+			$(event.target).parent().css('position', 'fixed');
+		},
+		resizable: false,
+		height: "auto",
+		width: "auto",
+		modal: false,
+		position: { my: "center", at: "center", of: window },
+		buttons: {
+			"Open in this tab": function() {
+				window.location.href = "/private.php";
+				$(this).dialog("close");
+			},
+			"Open in new tab": function() {
+				window.open("/private.php", "_blank");
+				$(this).dialog("close");
+			},
+			Cancel: function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+	$(window).resize(function() {
+		$("#pm-confirm").dialog({position: { my: "center", at: "center", of: window }});
+	});
 }
-*/
 
 // select posticon on post screens
 function posticon_sel(id) {
