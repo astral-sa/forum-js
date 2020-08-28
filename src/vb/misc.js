@@ -20,7 +20,7 @@ function validate_pm(theform, pmmaxchars) {
  * Fancy new PM popup
  */
 function confirm_newpm() {
-	var pmDialog = $('<div id="pm-confirm" title="VERY IMPORTANT FORUMS ANNOUNCEMENT!"><span class="ui-icon ui-icon-alert" style="float:left; margin:15px 12px 15px 0;"></span><p>You have received a new private message!</p></div>');
+	var pmDialog = $('<div id="pm-confirm" title="VERY IMPORTANT FORUMS ANNOUNCEMENT!"><span class="ui-icon ui-icon-alert" style="float:left; margin:15px 12px 15px 0;"></span><p style="outline:none;" tabindex=-1 autofocus>You have received a new private message!</p></div>');
 	pmDialog.appendTo('body');
 	$("#pm-confirm").dialog({
 		create: function(event) {
@@ -32,12 +32,12 @@ function confirm_newpm() {
 		modal: false,
 		position: { my: "center", at: "center", of: window },
 		buttons: {
-			"Open in this tab": function() {
-				window.location.href = "/private.php";
-				$(this).dialog("close");
-			},
 			"Open in new tab": function() {
 				window.open("/private.php", "_blank");
+				$(this).dialog("close");
+			},
+			"Open in this tab": function() {
+				window.location.href = "/private.php";
 				$(this).dialog("close");
 			},
 			Cancel: function() {
