@@ -26,6 +26,7 @@ function confirm_newpm() {
 		create: function(event) {
 			$(event.target).parent().css('position', 'fixed');
 		},
+		dialogClass: 'sa-dialog',
 		resizable: false,
 		height: "auto",
 		width: "auto",
