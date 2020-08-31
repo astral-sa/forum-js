@@ -47,7 +47,8 @@ function confirm_newpm() {
 		}
 	});
 	$(window).resize(function() {
-		$("#pm-confirm").dialog({position: { my: "center", at: "center", of: window }});
+		if ($('#pm-confirm').dialog('isOpen'))
+			$("#pm-confirm").dialog({position: { my: "center", at: "center", of: window }});
 	});
 }
 
