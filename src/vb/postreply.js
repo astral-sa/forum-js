@@ -875,6 +875,11 @@
                 case 85: // Underline
                     wrap = 'u';
                     break;
+                case 80: // 'p'
+                    if (!e.shiftKey) {
+                        wrap = 'spoiler';
+                    }
+                    break;
                 case 86: // V, Paste
                     if (shouldIgnorePaste())
                     {
