@@ -746,7 +746,7 @@
                     pasteData = '[video type="twitch"';
                     if (urlinfo.query.t)
                         pasteData += ' start="' + getVideoStart(urlinfo.query.t) + '"';
-                    pasteData += ']' + urlinfo.path.substr(8) + '[/video]';
+                    pasteData += ']' + urlinfo.path.substr(1) + '[/video]';
                     handled = true;
                 }
                 // Match channels; ignore collections
