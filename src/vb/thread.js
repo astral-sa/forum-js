@@ -85,28 +85,12 @@ SA.thread = new function(window, document, $)
 
         $(document).delegate('td.postbody a', 'click', handleThreadLinks);
 
-        if (SA.utils.isMobile)
+        $('.bbc-spoiler').click(function(e)
         {
-            $('.bbc-spoiler').on('touchmove', function(e)
-            {
-                e.stopPropagation();
-                e.preventDefault();
-            });
+            $(this).toggleClass('stay');
+        });
 
-            $('.bbc-spoiler').on('touchstart', function(e)
-            {
-                $(this).toggleClass('stay');
-                e.stopPropagation();
-                e.preventDefault();
-            });
-        }
-        else
-        {
-            $('.bbc-spoiler').click(function(e)
-            {
-                $(this).toggleClass('stay');
-            });
-
+        if (!SA.utils.isMobile) {
             $('.bbc-spoiler').hover(function()
             {
                 $(this).addClass('reveal');
