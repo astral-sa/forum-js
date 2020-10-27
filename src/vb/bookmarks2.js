@@ -2,7 +2,7 @@ new function(window, document, $)
 {
     var base = 'https://fi.somethingawful.com/style/bookmarks/';
     var stars = [];
-    var n_stars = 3;
+    var n_stars = 6;
     var star_off = null;
     var star_spin = null;
     var id_regexp = /thread(\d+)/i;
@@ -50,8 +50,8 @@ new function(window, document, $)
 
                     p.addClass('spin');
 
-                    p.removeClass('category0 category1 category2');
-                    t.removeClass('bm0 bm1 bm2');
+                    p.removeClass('category0 category1 category2 category3 category4 category5');
+                    t.removeClass('bm0 bm1 bm2 bm3 bm4 bm5');
 
                     var data = {
                         'threadid': tid,
