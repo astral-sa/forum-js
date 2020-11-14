@@ -139,8 +139,9 @@ $(document).ready(function() {
     };
     // Small function to add sources
     var addVideoSources = function(href, ext){
-        return '<source src="' + href.replace(ext,'.mp4')+'" type="video/mp4">' +
-                   '<source src="' + href.replace(ext,'.webm')+'" type="video/webm">';
+        var vidExtRegex = new RegExp('\\' + ext + '$');
+        return '<source src="' + href.replace(vidExtRegex,'.mp4')+'" type="video/mp4">' +
+                   '<source src="' + href.replace(vidExtRegex,'.webm')+'" type="video/webm">';
     };
     // Enforce controls for mobile clients
     var vidControls = window.SA.utils.isMobile ? 'controls ' : '';
