@@ -126,12 +126,6 @@ $(document).ready(function() {
         }
     });
 
-    // make cancerous posts show normally on mouseover
-    $("td.postbody .cancerous").closest("td").hover(
-        function(e) { $(".cancerous", this).addClass('hover'); },
-        function(e) { $(".cancerous", this).removeClass('hover'); }
-    );
-
     /* 2016 - video & twitter embedding */
     // Small function that tests whether a browser supports WebM embeds
     var canEmbedWebM = function() {
