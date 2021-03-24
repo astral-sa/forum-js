@@ -637,7 +637,7 @@
             var i = urlinfo.filename.lastIndexOf('.');
             if (i !== -1)
             {
-                extension = urlinfo.filename.substr(i + 1);
+                extension = urlinfo.filename.substr(i + 1).toLowerCase();
                 filename = urlinfo.filename.substr(0, i);
                 console.log('!!!', filename);
             }
