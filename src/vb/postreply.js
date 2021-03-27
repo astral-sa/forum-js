@@ -408,23 +408,28 @@
 
     /**
      * Checks to see if the cursor is within a tag.
+     * @param {string} tag Name of BBCode tag to check against.
+     * @return {boolean} Whether we're inside that type of BBCode tag.
      */
     var insideTag = function(tag)
     {
         var selection = getSelection();
         var text = messageBox[0].value;
+        // First, we make sure there's a tag opener before our insertion point.
         var i = text.lastIndexOf('[' + tag, selection.start);
-        if (i !== -1)
+        // We also make sure there's a ']' between the tag opener and the insertion point.
+        var lastClosedTagPosition = text.lastIndexOf(']', selection.start);
+        if (i !== -1 && i < lastClosedTagPosition && lastClosedTagPosition < selection.start)
         {
-            i = text.indexOf('[/' + tag + ']', i);
+            // Look for a close tag after the previous tag opener.
+            i = text.indexOf('[/' + tag, i);
             if (i === -1)
             {
                 // No closing tag, assume everything after the start tag is a list.
-                return false;
+                return true;
             }
-
-            // +3 to make sure we're talking about the end of the tag.
-            return i + 3 > selection.end;
+            // We want to be at (or before) the start of the close tag.
+            return selection.end <= i;
         }
 
         return false;
