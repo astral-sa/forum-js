@@ -119,33 +119,6 @@ new function(window, document, $)
             var d = $('<div id="gc_overlay"></div>');
             $('body').append(d);
         }
-        else if ($('body.loginform').length)
-        {
-            var secure_login = $('input.secure_login');
-            var toggleSecure = function()
-            {
-                var form = $('form.login_form');
-                var url = 'https://forums.somethingawful.com/account.php';
-                if (!secure_login.is(':checked'))
-                {
-                    url = '/account.php';
-                    $.cookie('secure_login', 'no');
-                }
-                else
-                {
-                    $.cookie('secure_login', null);
-                }
-                form.attr('action', url);
-            };
-
-            secure_login.click(toggleSecure);
-
-            if ($.cookie('secure_login') == 'no')
-            {
-                secure_login.prop('checked', false);
-                toggleSecure();
-            }
-        }
 
         // Show a different color quote block if the user has been quoted
         var regex = new RegExp('^' + $('#loggedinusername').text().replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1") + "\\s+posted:$");
