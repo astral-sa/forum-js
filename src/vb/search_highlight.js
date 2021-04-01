@@ -1,8 +1,8 @@
 
 var SearchHighlight = {
-	colors: new Array('ff0', 'f0f', '0ff', 'f99', '9f9', 'd0f'),
-	words: new Array(),
-	wordColors: new Array(),
+	colors: ['ff0', 'f0f', '0ff', 'f99', '9f9', 'd0f'],
+	words: [],
+	wordColors: [],
 
 	parsePage: function() {
 		this.findWords();
@@ -16,7 +16,7 @@ var SearchHighlight = {
 	findWords: function() {
 		if(!document.location.search.indexOf('highlight=')) return false;
 		try {
-			qs = document.location.search.match(/highlight=[\w(:?\+)]+/)[0].split('=')[1];
+			var qs = document.location.search.match(/highlight=[\w(:?\+)]+/)[0].split('=')[1];
 			this.words = qs.indexOf('+') ? qs.split('+') : new Array(qs);
 		}
 		catch(e) {
@@ -26,10 +26,10 @@ var SearchHighlight = {
 
 	parseTDs: function() {
 		if(!this.words.length) return true;
-		var tds = dojo.html.getElementsByClass("postbody", null, "td");
-		for(i = 0; i < tds.length; i++) {
+		var tds = $('td.postbody');
+		for(var i = 0; i < tds.length; i++) {
 			var html = tds[i].innerHTML;
-			for(j = 0; j < this.words.length; j++) {
+			for(var j = 0; j < this.words.length; j++) {
 				var word = this.words[j].toLowerCase();
 				html = this.highlight(html, word, this.getColor(j));
 			}
@@ -38,7 +38,7 @@ var SearchHighlight = {
 	},
 
 	highlight: function(text, word, color) {
-		var pos;
+		var pos = 0;
 		var buf = '';
 		while(text.length > 0) {
 			var lctext = text.toLowerCase();
@@ -59,9 +59,8 @@ var SearchHighlight = {
 
 		return buf;
 	}
-}
+};
 
-dojo.addOnLoad(function() {
+$(window).on('load', function() {
 	SearchHighlight.parsePage();
 });
-
