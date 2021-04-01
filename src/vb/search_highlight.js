@@ -16,8 +16,8 @@ var SearchHighlight = {
 	findWords: function() {
 		if(!document.location.search.indexOf('highlight=')) return false;
 		try {
-			var qs = document.location.search.match(/highlight=[\w(:?\+)]+/)[0].split('=')[1];
-			this.words = qs.indexOf('+') ? qs.split('+') : new Array(qs);
+			var qs = document.location.search.match(/highlight=[\w(:?+,)]+/)[0].split('=')[1];
+			this.words = qs.indexOf('+') ? qs.split(',') : new Array(qs);
 		}
 		catch(e) {
 			return false;
@@ -30,7 +30,7 @@ var SearchHighlight = {
 		for(var i = 0; i < tds.length; i++) {
 			var html = tds[i].innerHTML;
 			for(var j = 0; j < this.words.length; j++) {
-				var word = this.words[j].toLowerCase();
+				var word = this.words[j].replace('+', ' ').toLowerCase();
 				html = this.highlight(html, word, this.getColor(j));
 			}
 			tds[i].innerHTML = html;
