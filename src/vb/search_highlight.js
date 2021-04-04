@@ -2,7 +2,7 @@
 var SearchHighlight = {
 	colors: ['ff0', 'f0f', '0ff', 'f99', '9f9', 'd0f'],
 	words: [],
-	wordColors: [],
+	wordRegex: [],
 
 	parsePage: function() {
 		this.findWords();
@@ -16,8 +16,11 @@ var SearchHighlight = {
 	findWords: function() {
 		if(!document.location.search.indexOf('highlight=')) return false;
 		try {
-			var qs = document.location.search.match(/highlight=[\w(:?+,)]+/)[0].split('=')[1];
-			this.words = qs.indexOf('+') ? qs.split(',') : new Array(qs);
+			var qs = document.location.search.match(/highlight=[\w(:?+,)]+/)[0].split('=')[1].replace('+', ' ');
+			this.words = qs.indexOf(',') ? qs.split(',') : new Array(qs);
+			this.wordRegex = this.words.map(function(someWord) {
+				return new RegExp(someWord, "gi");
+			});
 		}
 		catch(e) {
 			return false;
@@ -25,39 +28,29 @@ var SearchHighlight = {
 	},
 
 	parseTDs: function() {
-		if(!this.words.length) return true;
+		if (!this.words.length) return true;
 		var tds = $('td.postbody');
-		for(var i = 0; i < tds.length; i++) {
-			var html = tds[i].innerHTML;
-			for(var j = 0; j < this.words.length; j++) {
-				var word = this.words[j].replace('+', ' ').toLowerCase();
-				html = this.highlight(html, word, this.getColor(j));
-			}
-			tds[i].innerHTML = html;
+		for (var i = 0; i < tds.length; i++) {
+			this.highlightNode(tds[i]);
 		}
 	},
-
-	highlight: function(text, word, color) {
-		var pos = 0;
-		var buf = '';
-		while(text.length > 0) {
-			var lctext = text.toLowerCase();
-			pos = lctext.indexOf(word, pos + 1);
-			if(pos < 0) return buf + text;
-
-			try {
-				if(text.lastIndexOf('>', pos) < text.lastIndexOf('<', pos)) throw '';
-				if(text.lastIndexOf('/script>', pos) < text.lastIndexOf('<script', pos)) throw '';
+	highlightNode: function(node) {
+		var that = this;
+		$(node).contents().filter(function() {
+			if (this.nodeType === 1 && this.childNodes && this.nodeName.toLowerCase() !== 'script' && this.nodeName.toLowerCase() !== 'style') {
+				that.highlightNode(this);
+				return false;
 			}
-			catch(e) {
-				continue;
+			return this.nodeType === 3 && $.trim(this.nodeValue).length;
+		}).replaceWith(function() {
+			var working = this.nodeValue || "";
+			for (var j = 0; j < that.words.length; j++) {
+				working = working.replace(that.wordRegex[j], function(match) {
+					return '<b style="background:#' + that.getColor(j) + '">' + match + '</b>';
+				});
 			}
-
-			buf += text.substring(0, pos) + '<b style="background:#' + color + '">' + text.substr(pos, word.length) + '</b>';
-			text = text.substr(pos + word.length);
-		}
-
-		return buf;
+			return working;
+		});
 	}
 };
 
