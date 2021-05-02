@@ -103,7 +103,7 @@
                         anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/buttons/byob-quote-added2.png');
                     }
                     else if ($("link[href*='/dark.css']").length) {
-                        anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/buttons/dark/dark-added.png');
+                        anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/buttons/dark/dark-added7.png');
                     }
                     else {
                         anchor.children('img').attr('src', 'https://fi.somethingawful.com/images/sa-quote-added.gif');
