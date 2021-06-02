@@ -1,24 +1,6 @@
 new function(window, document, $)
 {
-    var base = 'https://fi.somethingawful.com/style/bookmarks/';
-    var stars = [];
-    var n_stars = 6;
-    var star_off = null;
-    var star_spin = null;
     var id_regexp = /thread(\d+)/i;
-
-    var init = function()
-    {
-        star_off = $(new Image()).attr('src', base + 'star-off.gif');
-        star_spin = $(new Image()).attr('src', base + 'spin3.gif');
-
-        for (var i = 0; i < n_stars; i++)
-        {
-            stars.push($(new Image()).attr('src', base + 'star' + i + '.gif'));
-        }
-
-        console.log('[bookmark] Images created.');
-    };
 
     var init_thread_stars = function()
     {
@@ -254,8 +236,6 @@ new function(window, document, $)
 
         console.info('[bookmark] UserCP bookmark management initialized.');
     };
-
-    init();
 
     $(document).ready(function()
     {
